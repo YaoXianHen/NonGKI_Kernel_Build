@@ -59,10 +59,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo pacman -Syyu --noconfirm
-        sudo pacman -S cpio git base-devel systemd wget rustup curl patch ccache automake flex \
-          lzop bison gperf zip bzip2 squashfs-tools pngcrush schedtool make optipng maven pwgen \
-          minicom bc unzip zstd binutils gcc python3 which libxml2-legacy 7-zip --noconfirm
+        pacman -Syyu --noconfirm \
+        cpio git base-devel systemd wget rustup curl patch ccache automake flex \
+        lzop bison gperf zip bzip2 squashfs-tools pngcrush schedtool make optipng maven pwgen \
+        minicom bc unzip zstd binutils gcc python3 which libxml2-legacy 7-zip
+
         rustup default stable
 
     - name: Install GNU GCC
