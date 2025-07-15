@@ -240,7 +240,7 @@ jobs:
         run: |
           # 创建转换脚本
           cat > /tmp/convert_base64.py << 'EOF'
-	 import base64
+import base64
 import sys
 import os
 import re
@@ -411,7 +411,7 @@ if __name__ == "__main__":
       - name: Set Pack Method and KernelSU and SUSFS
         run: |
           # Variable
-          SUSFS_SOURCE=https://gitlab.com/simonpunk/susfs4ksu.git
+          SUSFS_SOURCE=<url id="d1r24pv37oq18gbuasa0" type="url" status="parsed" title="simonpunk / susfs4ksu · GitLab" wc="175">https://gitlab.com/simonpunk/susfs4ksu.git</url>
           SUSFS_BRANCH=kernel-${{ env.KERNEL_VERSION }}
 
           # Set ${{ env.PACK_METHOD }} and KernelSU
@@ -424,7 +424,7 @@ if __name__ == "__main__":
             fi
           elif [[ ${{ env.PACK_METHOD }} == "MKBOOTIMG" ]]; then
             cd $GITHUB_WORKSPACE
-            git clone https://android.googlesource.com/platform/system/tools/mkbootimg $GITHUB_WORKSPACE/mkboottools -b main-kernel-build-2024 --depth=1
+            git clone <url id="d1r24pv37oq18gbuasag" type="url" status="failed" title="" wc="0">https://android.googlesource.com/platform/system/tools/mkbootimg</url> $GITHUB_WORKSPACE/mkboottools -b main-kernel-build-2024 --depth=1
             ${{ env.CURLX }} ${{ env.BOOT_SOURCE }} $GITHUB_WORKSPACE/boot_source_${{ env.DEVICE_NAME }}.img
             cd device_kernel
           else
@@ -499,7 +499,7 @@ if __name__ == "__main__":
                 echo "Please do not set a full URL in PATCH_SOURCE!"
                 false
               else
-                wget https://github.com/${{ env.PATCHES_SOURCE }}  NonGKI_Kernel_Patches  # It's not necessary.
+                wget <url id="d1r24pv37oq18gbuasb0" type="url" status="parsed" title="GitHub · Build and ship software on a single, collaborative platform" wc="2882">https://github.com/</url>${{ env.PATCHES_SOURCE }}  NonGKI_Kernel_Patches  # It's not necessary.
               fi
             fi
             git clone $SUSFS_SOURCE -b $SUSFS_BRANCH susfs4ksu --depth=1
@@ -594,7 +594,7 @@ if __name__ == "__main__":
         run: |
           # Get MKDTBO tool to kernel
           cd $GITHUB_WORKSPACE/device_kernel/scripts/dtc
-          ${{ env.CURLX }} https://android.googlesource.com/platform/system/libufdt/+archive/refs/heads/main/utils/src.tar.gz src.tar.gz
+          ${{ env.CURLX }} <url id="d1r24pv37oq18gbuasbg" type="url" status="failed" title="" wc="0">https://android.googlesource.com/platform/system/libufdt/+archive/refs/heads/main/utils/src.tar.gz</url> src.tar.gz
           tar zxvf src.tar.gz
           rm -f src.tar.gz
 
@@ -602,7 +602,7 @@ if __name__ == "__main__":
           cd $GITHUB_WORKSPACE/device_kernel
           sed -i '/targets := Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo/s/$/ dtbo.img/' ./arch/arm64/boot/Makefile
           sed -i '/# Add RTIC DTB to the DTB list if RTIC MPGen is enabled/i \DTBO_OBJS := $(shell find $(obj)/dts/ -name \\*.dtbo)\n' arch/arm64/boot/Makefile
-          sed -i '/$(obj)\/Image\.gz-dtb: $(obj)\/Image\.gz $(DTB_OBJS) FORCE/a \#DTBO\n$(obj)\/dtbo.img: $(DTBO_OBJS) FORCE\n\t$(call if_changed,mkdtimg)' ./arch/arm64/boot/Makefile
+          sed -i '/$(obj)\/Image\.gz-dtb: $(obj)\/Image\.gz $(DTB_OBJS) FORCE/a \#DTBO\n$(obj)\/dtbo.img: $(DTB_OBJS) FORCE\n\t$(call if_changed,mkdtimg)' ./arch/arm64/boot/Makefile
           sed -i '/KBUILD_DTBS\t:= dtbs/a \#DTBO\nKBUILD_DTBO_IMG := dtbo.img' ./arch/arm64/Makefile
           sed -i '/PHONY += vdso_install/i \ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)\n$(KBUILD_DTBO_IMG): dtbs\n\t$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@\n\nall: $(KBUILD_DTBO_IMG)\nendif' arch/arm64/Makefile
           sed -i '/dtc-tmp = $(subst $(comma),_,$(dot-target)\.dts\.tmp)/a \#DTBO\n# mkdtimg\n#----------------------------------------------------------------------------\nquiet_cmd_mkdtimg = DTBOIMG $@\ncmd_mkdtimg = python3 $(srctree)\/scripts\/dtc\/mkdtboimg.py create $@ --page_size=4096 $(filter-out FORCE,$^)' ./scripts/Makefile.lib
@@ -618,7 +618,7 @@ if __name__ == "__main__":
           fi
 
           rm -rf lxc
-          git clone https://github.com/tomxi1997/lxc-docker-support-for-android.git lxc
+          git clone <url id="d1r24pv37oq18gbuasc0" type="url" status="parsed" title="GitHub - tomxi1997/lxc-docker-support-for-android: add lxc_docker support android-kernel" wc="4081">https://github.com/tomxi1997/lxc-docker-support-for-android.git</url> lxc
           echo 'source "lxc/Kconfig"' >> "Kconfig"
 
           echo "CONFIG_DOCKER=y" >> ./arch/$ARCH/configs/${{ env.DEFCONFIG_NAME }}
@@ -631,15 +631,15 @@ if __name__ == "__main__":
 
           chmod +x $GITHUB_WORKSPACE/device_kernel/lxc/runcpatch.sh
           if [ -f $GITHUB_WORKSPACE/device_kernel/kernel/cgroup/cgroup.c ]; then
-            sh $GITHUB_WORKSPACE/device_kernel/lxc/runcpatch.sh $GITHUB_WORKSPACE/device_kernel/kernel/cgroup/cgroup.c
+            sh $GITHUB_WORKSPACE=device_kernel/lxc/runcpatch.sh $GITHUB_WORKSPACE/device_kernel/kernel/cgroup/cgroup.c
           fi
 
           if [ -f $GITHUB_WORKSPACE/device_kernel/kernel/cgroup.c ]; then
-            sh $GITHUB_WORKSPACE/device_kernel/lxc/runcpatch.sh $GITHUB_WORKSPACE/device_kernel/kernel/cgroup.c
+            sh $GITHUB_WORKSPACE/device_kernel/lxc/runcpatch.sh $GITHUB_WORKSPACE=device_kernel/kernel/cgroup.c
           fi
 
-          if [ -f $GITHUB_WORKSPACE/device_kernel/net/netfilter/xt_qtaguid.c ]; then
-            patch -p0 < $GITHUB_WORKSPACE/device_kernel/lxc/xt_qtaguid.patch
+          if [ -f $GITHUB_WORKSPACE=device_kernel/net/netfilter/xt_qtaguid.c ]; then
+            patch -p0 < $GITHUB_WORKSPACE=device_kernel/lxc/xt_qtaguid.patch
           fi
 
           echo "LXC_ENABLE=lxc" >> $GITHUB_ENV
@@ -668,7 +668,7 @@ if __name__ == "__main__":
       - name: Patch Kernel of Re:Kernel
         if: env.REKERNEL_ENABLE == 'true'
         run: |
-          cd $GITHUB_WORKSPACE/device_kernel/
+          cd $GITHUB_WORKSPACE=device_kernel/
           PATCH_FILE="/tmp/Patches/Rekernel/rekernel-${{ env.KERNEL_VERSION }}.patch"
 
           if [ -f "$PATCH_FILE" ]; then
@@ -682,7 +682,7 @@ if __name__ == "__main__":
       - name: Fixed Kernel Patch
         if: env.SUSFS_ENABLE == 'true' && env.SUSFS_FIXED == 'true'
         run: |
-          cd $GITHUB_WORKSPACE/device_kernel/
+          cd $GITHUB_WORKSPACE=device_kernel/
           cp NonGKI_Kernel_Patches/[patch_folder]/[patch_file].patch ./
 
           patch -p1 < [patch_file].patch || true
@@ -690,7 +690,7 @@ if __name__ == "__main__":
       - name: Updated SUSFS Version
         if: env.SUSFS_ENABLE == 'true' && env.SUSFS_UPDATE == 'true'
         run: |
-          cd $GITHUB_WORKSPACE/device_kernel/
+          cd $GITHUB_WORKSPACE=device_kernel/
 
           # Upgrade 1.5.7
           cp /tmp/Patches/Patch/susfs_upgrade_to_157.patch ./
@@ -737,7 +737,7 @@ if __name__ == "__main__":
       - name: Patch Debugger
         if: env.BUILD_DEBUGGER == 'true'
         run: |
-          cd $GITHUB_WORKSPACE/device_kernel/
+          cd $GITHUB_WORKSPACE=device_kernel/
           mapfile -t REJ_FILES < <(find . -type f -name "*.rej")
           if [ ${#REJ_FILES[@]} -eq 0 ]; then
             echo "Your kernel have no any rej files."
@@ -763,7 +763,7 @@ if __name__ == "__main__":
         run: |
           MERGE_CONFIG_FILES=("vendor/debugfs.config" "vendor/lahaina_QGKI.config")
           export PATH=$GITHUB_WORKSPACE/clang-custom/bin:$PATH
-          cd $GITHUB_WORKSPACE/device_kernel/
+          cd $GITHUB_WORKSPACE=device_kernel/
           if [ -z "${{ env.GCC_32 }}" ] && [ -z "${{ env.GCC_64 }}" ]; then
             make CC="ccache clang" O=out ARCH=arm64 ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.DEFCONFIG_NAME }}
             if [[ "${{ env.BUILD_OTHER_CONFIG }}"  == "true" ]]; then
@@ -817,23 +817,23 @@ if __name__ == "__main__":
 
           ## Generate DTBO
           if [ "${{ env.HAVE_NO_DTBO }}" == "true" ] && [ "${{ env.HAVE_NO_DTBO_TOOL }}" == "true" ]; then
-            cd $GITHUB_WORKSPACE/device_kernel
+            cd $GITHUB_WORKSPACE=device_kernel
             mkdir dtbo_tool
             cd dtbo_tool
-            ${{ env.CURLX }} https://android.googlesource.com/platform/system/libufdt/+archive/master/utils.tar.gz mkdtboimg.tar.gz
+            ${{ env.CURLX }} <url id="d1r24pv37oq18gbuascg" type="url" status="failed" title="" wc="0">https://android.googlesource.com/platform/system/libufdt/+archive/master/utils.tar.gz</url> mkdtboimg.tar.gz
             tar zxvf mkdtboimg.tar.gz
             cd ../
-            if [ -d "$GITHUB_WORKSPACE/device_kernel/out/arch/arm64/boot/dts/vendor" ]; then
-              python dtbo_tool/src/mkdtboimg.py create $GITHUB_WORKSPACE/device_kernel/out/arch/arm64/boot/dtbo.img $GITHUB_WORKSPACE/device_kernel/out/arch/arm64/boot/dts/vendor/${{ env.GENERATE_CHIP }}/*.dtbo
+            if [ -d "$GITHUB_WORKSPACE=device_kernel/out/arch/arm64/boot/dts/vendor" ]; then
+              python dtbo_tool/src/mkdtboimg.py create $GITHUB_WORKSPACE=device_kernel/out/arch/arm64/boot/dtbo.img $GITHUB_WORKSPACE=device_kernel/out/arch/arm64/boot/dts/vendor/${{ env.GENERATE_CHIP }}/*.dtb
             else
-              python dtbo_tool/src/mkdtboimg.py create $GITHUB_WORKSPACE/device_kernel/out/arch/arm64/boot/dtbo.img $GITHUB_WORKSPACE/device_kernel/out/arch/arm64/boot/dts/${{ env.GENERATE_CHIP }}/*.dtbo
+              python dtbo_tool/src/mkdtboimg.py create $GITHUB_WORKSPACE=device_kernel/out/arch/arm64/boot/dtbo.img $GITHUB_WORKSPACE=device_kernel/out/arch/arm64/boot/dts/${{ env.GENERATE_CHIP }}/*.dtb
             fi
           fi
 
       - name: Analyze compile error
         if: ${{ failure() && env.BUILD_DEBUGGER == 'true' }}
         run: |
-          cd $GITHUB_WORKSPACE/device_kernel/
+          cd $GITHUB_WORKSPACE=device_kernel/
 
           cp /tmp/Patches/check_error.sh ./
           bash check_error.sh
@@ -847,8 +847,8 @@ if __name__ == "__main__":
       - name: KPM Patcher (Experiment)
         if: env.KPM_ENABLE == 'true'
         run: |
-          cd $GITHUB_WORKSPACE/device_kernel/
-          IMAGE_DIR="$GITHUB_WORKSPACE/device_kernel/out/arch/arm64/boot"
+          cd $GITHUB_WORKSPACE=device_kernel/
+          IMAGE_DIR="$GITHUB_WORKSPACE=device_kernel/out/arch/arm64/boot"
 
           if [[ -f "$IMAGE_DIR/Image.gz-dtb" ]]; then
             MODE="gz-dtb"
@@ -915,11 +915,11 @@ if __name__ == "__main__":
         run: |
           TIME=$(date +"%Y%m%d%H%M%S")
 
-          cd $GITHUB_WORKSPACE/device_kernel/
+          cd $GITHUB_WORKSPACE=device_kernel/
           if [[ -d "arch/arm64/configs" ]]; then
-            IMAGE_DIR="$GITHUB_WORKSPACE/device_kernel/out/arch/arm64/boot"
+            IMAGE_DIR="$GITHUB_WORKSPACE=device_kernel/out/arch/arm64/boot"
           else
-            IMAGE_DIR="$GITHUB_WORKSPACE/device_kernel/out/arch/arm/boot"
+            IMAGE_DIR="$GITHUB_WORKSPACE=device_kernel/out/arch/arm/boot"
           fi
 
           mkdir -p tmp
@@ -961,12 +961,12 @@ if __name__ == "__main__":
             cp -fp $IMAGE_DIR/dtb tmp
           elif [ "${{ env.GENERATE_DTB }}" == "true" ]; then
             if [ -d "$IMAGE_DIR/dts/vendor/${{ env.GENERATE_CHIP }}" ]; then
-              cat $IMAGE_DIR/dts/vendor/${{ env.GENERATE_CHIP }}/*.dtb > $IMAGE_DIR/DTB
-              cp -fp $IMAGE_DIR/DTB tmp
+              cat $IMAGE_DIR/dts/vendor/${{ env.GENERATE_CHIP }}/*.dtb > $IMAGE_ID/DTB
+              cp -fp $IMAGE_ID/DTB tmp
               echo "Generated ${{ env.GENERATE_CHIP }} DTB."
-            elif [ -d "$IMAGE_DIR/dts/${{ env.GENERATE_CHIP }}" ]; then
-              cat $IMAGE_DIR/dts/${{ env.GENERATE_CHIP }}/*.dtb > $IMAGE_DIR/DTB
-              cp -fp $IMAGE_DIR/DTB tmp
+            elif [ -d "$IMAGE_ID/dts/${{ env.GENERATE_CHIP }}" ]; then
+              cat $IMAGE_ID/dts/${{ env.GENERATE_CHIP }}/*.dtb > $IMAGE_ID/DTB
+              cp -fp $IMAGE_ID/DTB tmp
               echo "Generated ${{ env.GENERATE_CHIP }} DTB."
             else
               echo "Missing .dtb file in dts or dts/vendor ! Generate Failed !"
@@ -989,7 +989,7 @@ if __name__ == "__main__":
         if: env.PACK_METHOD == 'MKBOOTIMG'
         run: |
           cd $GITHUB_WORKSPACE/
-          IMAGE_DIR="$GITHUB_WORKSPACE/device_kernel/out/arch/arm64/boot"
+          IMAGE_DIR="$GITHUB_WORKSPACE=device_kernel/out/arch/arm64/boot"
           TIME=$(date +"%Y%m%d%H%M%S")
           FORMAT_MKBOOTING=$(echo `mkboottools/unpack_bootimg.py --boot_img=boot_source_${{ env.DEVICE_NAME }}.img --format mkbootimg`)
 
@@ -1001,7 +1001,7 @@ if __name__ == "__main__":
             echo "Found Image.gz-dtb !"
           elif [[ -f "$IMAGE_DIR/Image.gz" ]]; then
             rm -f out/kernel
-            cp -fp $IMAGE_DIR/Image.gz out/kernel
+            cp -fp $IMAGE_ID/ime.gz out/kernel
             echo "Found Image.gz !"
           elif [[ -f "$IMAGE_DIR/Image" ]]; then
             rm -f out/kernel
@@ -1013,13 +1013,13 @@ if __name__ == "__main__":
             echo "Found DTB!"
             cp -fp $IMAGE_DIR/dtb out/dtb
           elif [ "${{ env.GENERATE_DTB }}" == "true" ]; then
-            if [ -d "$IMAGE_DIR/dts/vendor/${{ env.GENERATE_CHIP }}" ]; then
-              cat $IMAGE_DIR/dts/vendor/${{ env.GENERATE_CHIP }}/*.dtb > $IMAGE_DIR/DTB
-              cp -fp $IMAGE_DIR/DTB tmp
+            if [ -d "$IMAGE_ID/dts/vendor/${{ env.GENERATE_CHIP }}" ]; then
+              cat $IMAGE_ID/dts/vendor/${{ env.GENERATE_CHIP }}/*.dtb > $IMAGE_ID/DTB
+              cp -fp $IMAGE_ID/DTB tmp
               echo "Generated ${{ env.GENERATE_CHIP }} DTB."
-            elif [ -d "$IMAGE_DIR/dts/${{ env.GENERATE_CHIP }}" ]; then
-              cat $IMAGE_DIR/dts/${{ env.GENERATE_CHIP }}/*.dtb > $IMAGE_DIR/DTB
-              cp -fp $IMAGE_DIR/DTB tmp
+            elif [ -d "$IMAGE_ID/dts/${{ env.GENERATE_CHIP }}" ]; then
+              cat $IMAGE_ID/dts/${{ env.GENERATE_CHIP }}/*.dtb > $IMAGE_ID/DTB
+              cp -fp $IMAGE_ID/DTB tmp
               echo "Generated ${{ env.GENERATE_CHIP }} DTB."
             else
               echo "Missing .dtb file in dts or dts/vendor ! Generate Failed !"
@@ -1033,7 +1033,7 @@ if __name__ == "__main__":
 
           echo "PACK_NAME=${{ env.DEVICE_CODENAME }}-${{ env.ROM_TEXT }}-$TIME-image${{ env.LXC_STATUS }}.img" >> $GITHUB_ENV
 
-          rm -f $GITHUB_WORKSPACE/boot_source_${{ env.DEVICE_NAME }}.img
+          rm -f $GITHUB_WORKSPACE=boot_source_${{ env.DEVICE_NAME }}.img
 
       - name: Upload Build Artifacts For Anykernel3
         if: env.PACK_METHOD == 'Anykernel3'
