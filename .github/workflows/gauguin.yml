@@ -424,7 +424,7 @@ if __name__ == "__main__":
             fi
           elif [[ ${{ env.PACK_METHOD }} == "MKBOOTIMG" ]]; then
             cd $GITHUB_WORKSPACE
-            git clone <url id="d1r24pv37oq18gbuasag" type="url" status="failed" title="" wc="0">https://android.googlesource.com/platform/system/tools/mkbootimg</url> $GITHUB_WORKSPACE/mkboottools -b main-kernel-build-2024 --depth=1
+            git clone https://android.googlesource.com/platform/system/tools/mkbootimg $GITHUB_WORKSPACE/mkboottools -b main-kernel-build-2024 --depth=1
             ${{ env.CURLX }} ${{ env.BOOT_SOURCE }} $GITHUB_WORKSPACE/boot_source_${{ env.DEVICE_NAME }}.img
             cd device_kernel
           else
